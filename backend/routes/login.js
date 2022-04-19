@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const userService = require('../src/user/userService');
+const userModel = require('../src/user/userModel');
 
 router.get('/', function(req, res, next) {
   if (req.session?.store?.loggedIn) return res.redirect('/home');
@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
   try {
-    const user = await userService.login(req.body.username, req.body.password);
+    const user = await userModel.login(req.body.username, req.body.password);
     if (!user) return res.render('login', {error: 'Usuario o contraseña incorrectos.', loggedIn: false});
 
     req.session.store = {
